@@ -26,6 +26,19 @@ class PlayerReader:
             self.players.append(player)
 
         return self.players
+    
+    def get_nationalities(self):
+        self.nationalities = set()
+        for player_dict in self.data:
+            nationality = player_dict['nationality']
+            self.nationalities.add(nationality)
+        
+        return sorted(list(self.nationalities))
+    
+    def get_nationality_string(self):
+        nationalities = self.get_nationalities()
+        nat_str = "/".join(nationalities)
+        return f"[{nat_str}]"
 
 class PlayerStats:
     def __init__(self, reader):
