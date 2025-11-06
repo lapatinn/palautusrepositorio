@@ -1,24 +1,29 @@
 import requests
 
 class Player:
-    def __init__(self, dict):
-        self.name = dict['name']
-        self.nationality = dict['nationality']
-        self.assists = dict['assists']
-        self.goals = dict['goals']
-        self.team = dict['team']
-        self.games = dict['games']
+    def __init__(self, player_dict):
+        self.name = player_dict['name']
+        self.nationality = player_dict['nationality']
+        self.assists = player_dict['assists']
+        self.goals = player_dict['goals']
+        self.team = player_dict['team']
+        self.games = player_dict['games']
 
     def get_goals_assists(self):
         return self.goals + self.assists
-    
+
     def __str__(self):
-        return f"{self.name:30}{self.team:20}{self.goals} + {self.assists} = {self.get_goals_assists()}"
+        string = (
+            f"{self.name:30}{self.team:20}{self.goals} + {self.assists}"
+            f" = {self.get_goals_assists()}"
+        )
+
+        return string
 
 class PlayerReader:
     def __init__(self, url):
-        self.data = requests.get(url).json() # JSON-data
-        self.players = list()
+        self.data = requests.get(url, timeout=10).json() # JSON-data
+        self.players = []
 
     def get_players(self):
         for player_dict in self.data:
@@ -26,15 +31,15 @@ class PlayerReader:
             self.players.append(player)
 
         return self.players
-    
+
     def get_nationalities(self):
-        self.nationalities = set()
+        nationalities_set = set()
         for player_dict in self.data:
             nationality = player_dict['nationality']
-            self.nationalities.add(nationality)
-        
-        return sorted(list(self.nationalities))
-    
+            nationalities_set.add(nationality)
+
+        return sorted(list(nationalities_set))
+
     def get_nationality_string(self):
         nationalities = self.get_nationalities()
         nat_str = "/".join(nationalities)
@@ -46,9 +51,9 @@ class PlayerStats:
         self.players = reader.get_players()
 
     def top_scorers_by_nationality(self, nationality):
-        self.grouped = list()
+        grouped = []
         for player in self.players:
             if player.nationality == nationality:
-                self.grouped.append(player)
+                grouped.append(player)
 
-        return sorted(self.grouped, key=lambda player: player.get_goals_assists(), reverse=True)
+        return sorted(grouped, key=lambda player: player.get_goals_assists(), reverse=True)
