@@ -20,7 +20,7 @@ def main():
 
     # Get nationalities for display at user input:
     nationalities = reader.get_nationality_string()
-
+    
     # User input
     while True:
         input = console.input(f"Select natinoality: [magenta]{nationalities}[/magenta]\nor type exit to quit: ").upper()
@@ -53,7 +53,8 @@ def main():
 
     # Print table
         console.print()
-        console.print(table)
+        if players:
+            console.print(table)
 
 if __name__ == "__main__":
     main()
