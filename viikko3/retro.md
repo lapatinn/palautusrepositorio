@@ -4,11 +4,17 @@ Tässä retrospektiivitekniikassa palautetta saadaan käyttämällä 5 eri kateg
 Eri kategoriat ilmaistaan pyöränä, joka on jaettu osiin. Osat on nimetty start, stop, continue, more of ja less of.
 
 Tarkoituksena on saada selville seuraavat seikat:
+
 Mitä tiimi voisi tehdä eri tavalla? Mitä uusia tai erilaisia toimintatapoja tiimi voisi ottaa käyttöön?
+
 Mitä tiimin tulisi jatkaa? Mikä toimintatapa/metodi on osoittautunut tehokkaaksi?
+
 Mitä tulisi välttää? Mitkä ovat tiimin tekemiä asioita, jotka eivät välttämättä edistä projektia?
+
 Mikä tiimin olisi hyvä tehdä lisää? Mitä tiimi ei tee tarpeeksi?
+
 Mitä tiimin pitäisi tehdä vähemmän? Meneekö esimerkiksi joihinkin toimenpiteisiin liikaa aikaa?
+
 
 
 Glad, Sad, Mad:
