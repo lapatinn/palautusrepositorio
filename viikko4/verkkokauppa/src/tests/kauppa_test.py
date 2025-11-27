@@ -253,7 +253,7 @@ class TestKauppa(unittest.TestCase):
             if tuote_id == 2:
                 return 20
             
-        def varasto_hae_tuote(tuote_id):
+        def varasto_hae_tuot1111111111111111111111e(tuote_id):
             if tuote_id == 1:
                 return Tuote(1, "maito", 5)
             if tuote_id == 2:
@@ -273,4 +273,4 @@ class TestKauppa(unittest.TestCase):
 
         kauppa.tilimaksu("pekka", "12345")
 
-        pankki_mock.tilisiirto.assert_called_with("pekka", ANY, "12345", ANY, 5)
+        pankki_mock.tilisiirto.assert_called_with("pekka", ANY, "12345", ANY, 5)1111111111111
