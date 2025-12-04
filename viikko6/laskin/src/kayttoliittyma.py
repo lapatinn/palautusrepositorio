@@ -12,38 +12,48 @@ class Summa:
     def __init__(self, sovelluslogiikka, arvo):
         self.sovelluslogiikka = sovelluslogiikka
         self.arvo = arvo
+        self.edellinen = None
 
     def suorita(self):
         self.edellinen = self.sovelluslogiikka.arvo()
         self.sovelluslogiikka.plus(self.arvo)
 
     def kumoa(self):
-        self.sovelluslogiikka.aseta_arvo(self.edellinen)
+        if self.edellinen is not None:
+            self.sovelluslogiikka.aseta_arvo(self.edellinen)
 
 class Erotus:
     def __init__(self, sovelluslogiikka, arvo):
         self.sovelluslogiikka = sovelluslogiikka
         self.arvo = arvo
+        self.edellinen = None
 
     def suorita(self):
+        self.edellinen = self.sovelluslogiikka.arvo()
         self.sovelluslogiikka.miinus(self.arvo)
+
+    def kumoa(self):
+        if self.edellinen is not None:
+            self.sovelluslogiikka.aseta_arvo(self.edellinen)
 
 class Nollaus:
     def __init__(self, sovelluslogiikka, arvo):
         self.sovelluslogiikka = sovelluslogiikka
         self.arvo = arvo
+        self.edellinen = None
 
     def suorita(self):
+        self.edellinen = self.sovelluslogiikka.arvo()
         self.sovelluslogiikka.nollaa()
+
+    def kumoa(self):
+        if self.edellinen is not None:
+            self.sovelluslogiikka.aseta_arvo(self.edellinen)
 
 class Kumoa:
     def __init__(self, sovelluslogiikka, arvo):
         self.sovelluslogiikka = sovelluslogiikka
         self.arvo = arvo
-
-    def suorita(self):
-        edellinen = self.arvo()
-        return edellinen
 
 class Kayttoliittyma:
     def __init__(self, sovelluslogiikka, root):
@@ -54,7 +64,6 @@ class Kayttoliittyma:
             Komento.SUMMA: Summa(sovelluslogiikka, self._lue_syote),
             Komento.EROTUS: Erotus(sovelluslogiikka, self._lue_syote),
             Komento.NOLLAUS: Nollaus(sovelluslogiikka, self._lue_syote),
-            Komento.KUMOA: Kumoa(sovelluslogiikka, self._lue_syote) # ei ehkä tarvita täällä...
         }
 
     def kaynnista(self):
@@ -87,7 +96,7 @@ class Kayttoliittyma:
             master=self._root,
             text="Kumoa",
             state=constants.DISABLED,
-            command=lambda: self._suorita_komento(Komento.KUMOA)
+            command=self._kumoa_komento
         )
 
         tulos_teksti.grid(columnspan=4)
@@ -103,6 +112,7 @@ class Kayttoliittyma:
     def _suorita_komento(self, komento):
         komento_olio = self._komennot[komento]
         komento_olio.suorita()
+        self._edellinen_komento = komento_olio
 
         self._kumoa_painike["state"] = constants.NORMAL
 
@@ -113,3 +123,8 @@ class Kayttoliittyma:
 
         self._syote_kentta.delete(0, constants.END)
         self._arvo_var.set(self._sovelluslogiikka.arvo())
+
+    def _kumoa_komento(self):
+        if self._edellinen_komento:
+            self._edellinen_komento.kumoa()
+            self._arvo_var.set(self._sovelluslogiikka.arvo())
