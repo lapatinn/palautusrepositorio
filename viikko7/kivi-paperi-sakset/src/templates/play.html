@@ -1,0 +1,48 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Pelaa - Kivi-paperi-sakset</title>
+  </head>
+  <body>
+    <h1>Pelaa</h1>
+
+    <p>Pelitilanne:</p>
+    <pre>{{ tuomari }}</pre>
+
+    {% if finished %}
+      <p style="color: green">Peli on päättynyt. Voittaja: {{ winner }}</p>
+    {% endif %}
+
+    {# Näytetään message vain, jos se ei ole sama kuin pelin päättymisilmoitus #}
+    {% set finished_msg = 'Peli on päättynyt. Voittaja: ' ~ (winner or '') %}
+    {% if message and message != finished_msg %}
+      <p style="color: red">{{ message }}</p>
+    {% endif %}
+
+    {% if last %}
+      <p>Viimeisin siirto: Ensimmäinen={{ last[0] }}, Toinen={{ last[1] }}</p>
+    {% endif %}
+
+    {% if not finished %}
+    <form method="post">
+      {% if tyyppi == 'a' %}
+        <label>Ensimmäisen pelaajan siirto: <input name="eka" maxlength="1"></label><br>
+        <label>Toisen pelaajan siirto: <input name="toka" maxlength="1"></label><br>
+      {% else %}
+        <label>Sinun siirtosi: <input name="eka" maxlength="1"></label><br>
+      {% endif %}
+      <button type="submit">Pelaa</button>
+    </form>
+    {% endif %}
+
+    <h2>Historia</h2>
+    <ul>
+      {% for e,t in history %}
+        <li>{{ e }} - {{ t }}</li>
+      {% endfor %}
+    </ul>
+
+    <p><a href="/">Takaisin aloitukseen</a></p>
+  </body>
+</html>
